@@ -273,6 +273,9 @@ class BuildDefinitionPlugin implements Plugin<Project> {
                 String targetDef = config.targetPlatform.targetDefinition.text
                 String hashInput = manifests + "\n" + targetDef
                 String hash = sha512HashFunction.hashString(hashInput, StandardCharsets.UTF_8)
+
+                project.rootProject.extensions.getByName("develocity").buildScan.value("assembleTargetPlatform.digest", hash)
+
                 File digestFile = new File(config.nonMavenizedTargetPlatformDir, 'digest')
                 boolean digestMatch = digestFile.exists() ? digestFile.text == hash : false
                 !digestMatch
