@@ -3,10 +3,7 @@ apply plugin: 'org.hidetake.ssh'
 
 buildscript {
     repositories {
-        jcenter()
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
+        gradlePluginPortal()
     }
     dependencies {
         classpath 'org.hidetake:gradle-ssh-plugin:2.10.1'
