@@ -1,27 +1,3 @@
-// publish build scans from CI builds
-plugins {
-    id "com.gradle.develocity" version "3.19.2"
-    id 'com.gradle.common-custom-user-data-gradle-plugin' version '2.1'
-}
-
-
-def isCI = System.getenv('CI') != null
-
-develocity {
-    server = "https://develocity-staging.eclipse.org"
-    allowUntrustedServer = false // ensure a trusted certificate is configured
-    buildScan {
-        publishing.onlyIf { it.isAuthenticated() }
-        obfuscation {
-            username { name -> isCI ? 'ci' : 'local' }
-            ipAddresses { addresses -> addresses.collect { address -> "0.0.0.0" } }
-            externalProcessName { processName -> "non-build-process" }
-            hostname { host -> isCI ? 'ci' : 'local' }
-        }
-        uploadInBackground = !isCI
-    }
-}
-
 rootProject.name = 'buildship'
 
 include ':org.gradle.toolingapi'
@@ -49,14 +25,3 @@ include ':org.eclipse.buildship.oomph.edit'
 include ':org.eclipse.buildship.oomph.feature'
 include ':org.eclipse.buildship.oomph.test'
 
-buildCache {
-    local {
-        enabled = !isCI
-    }
-
-    remote(develocity.buildCache) {
-        enabled = true
-        push = isCI
-    }
-
-}
