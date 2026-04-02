@@ -8,7 +8,7 @@ plugins {
 def isCI = System.getenv('CI') != null
 
 develocity {
-    server = "https://develocity-staging.eclipse.org"
+    server = "https://ge.gradle.org"
     allowUntrustedServer = false // ensure a trusted certificate is configured
     buildScan {
         publishing.onlyIf { it.isAuthenticated() }
